@@ -5,6 +5,7 @@ services:
     build: ${PWD}/src
     environment:
       - GENESIS_URL
+      - SEED
     ports:
       - "8000:8000"
     command:

@@ -23,4 +23,16 @@ cd hyperledger-indy-monitoring
 cp env.sample .env
 ```
 
-4. Edit the .env file using your favorite text editor and point the GENESIS_URL variable to point to your indy network's pool genesis url.
+4. Edit the .env file using your favorite text editor and point the GENESIS_URL variable to point to your indy network's pool genesis url. As this was done for training, it uses the default Network DIDs, if you want to connect to your custom chain, edit the SEED environment variable to match the seed from DID with NETWORK_MONITOR role.
+
+5. Bring up the containers
+```sh
+docker-compose up -d
+```
+
+Then you can point your browser to:
+ * http://localhost:8000 BCGov's Ledger Browser to view basic information about the blockchain. The ledger navigation was disabled.
+ * http://localhost:9090 Prometheus interface
+ * http://localhost:3000 Grafana interface with default admin/admin authentication.
+
+ As this was done for training, it uses the default Sovrin Builder's Network DIDs, if you want to connect to your custom chain, add the SEED environment variable to the browser container on the ```docker-compose.yml``` file.
