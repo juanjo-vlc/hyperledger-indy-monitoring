@@ -5,7 +5,7 @@ services:
     build: ${PWD}/src
     environment:
       - GENESIS_URL
-      - SEED
+      - LEDGER_SEED
     ports:
       - "8000:8000"
     command:
