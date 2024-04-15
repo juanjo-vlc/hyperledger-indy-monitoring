@@ -15,6 +15,11 @@ def generate_metrics(validator_info):
     metrics.append("#TYPE indynode_replicas gauge")
     metrics.append("#TYPE indynode_synced gauge")
     metrics.append("#TYPE indynode_uncommited_txns gauge")
+    metrics.append("#TYPE indynode_ic_queue_length gauge")
+    metrics.append("#TYPE indynode_pool_total_nodes_count gauge")
+    metrics.append("#TYPE indynode_pool_reachable_nodes_count gauge")
+    metrics.append("#TYPE indynode_pool_unreachable_nodes_count gauge")
+    metrics.append("#TYPE indynode_pool_blacklisted_nodes_count gauge")
 
     for obj in validator_info:
         if "Node_info" in obj:
@@ -31,6 +36,7 @@ def generate_metrics(validator_info):
             #metrics.append("indynode_client_ordered_request_counts{node=\"" + node + "\"} "+ str(obj["Node_info"]["Metrics"]["ordered request counts"]["1"]))
             metrics.append("indynode_master_throughput{node=\"" + node + "\"} "+ str(obj["Node_info"]["Metrics"]["throughput"]["0"]))
             #metrics.append("indynode_client_throughput{node=\"" + node + "\"} "+ str(obj["Node_info"]["Metrics"]["throughput"]["1"]))
+            metrics.append("indynode_ic_queue_length{node=\"" + node + "\"} " + str(len(obj["Node_info"]["View_change_status"]["IC_queue"])))
             for k,v in obj["Node_info"]["Metrics"]["transaction-count"].items():
                 metrics.append("indynode_transactions{node=\"" + node + "\",ledger=\"" +  k +"\"} "+ str(v))
             metrics.append("indynode_synced{node=\"" + node + "\",ledger=\"ledger\"} " + str(int(obj["Node_info"]["Catchup_status"]["Ledger_statuses"]["0"] == "synced")))
@@ -54,5 +60,10 @@ def generate_metrics(validator_info):
             metrics.append("indynode_last_updated{node=\"" + node + "\",ledger=\"ledger\"} " + str(int(obj["Node_info"]["Freshness_status"]["0"]["Has_write_consensus"])))
             metrics.append("indynode_last_updated{node=\"" + node + "\",ledger=\"pool\"} " + str(int(obj["Node_info"]["Freshness_status"]["1"]["Has_write_consensus"])))
             metrics.append("indynode_last_updated{node=\"" + node + "\",ledger=\"config\"} " + str(int(obj["Node_info"]["Freshness_status"]["2"]["Has_write_consensus"])))
+        if "Pool_info" in obj:
+            metrics.append("indynode_pool_total_nodes_count{node=\"" + node + "\"} " + str(int(obj["Pool_info"]["Total_nodes_count"])))
+            metrics.append("indynode_pool_reachable_nodes_count{node=\"" + node + "\"} " + str(int(obj["Pool_info"]["Reachable_nodes_count"])))
+            metrics.append("indynode_pool_unreachable_nodes_count{node=\"" + node + "\"} " + str(int(obj["Pool_info"]["Unreachable_nodes_count"])))
+            metrics.append("indynode_pool_blacklisted_nodes_count{node=\"" + node + "\"} " + str(len(obj["Pool_info"]["Blacklisted_nodes"])))
 
     return "\n".join(metrics)+"\n"
