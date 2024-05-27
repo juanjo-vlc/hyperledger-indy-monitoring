@@ -1,6 +1,6 @@
 # Indy node monitoring
 
-Please take a look at the corresponding blog entry: https://juanjo.garciaamaya.com/devops/indy-node-monitoring
+Please take a look at the corresponding blog entry: https://juanjo.garciaamaya.com/posts/devops/indy-node-monitoring
 
 This code is based on [BCgov's von-network](https://github.com/bcgov/von-network) work with minor additions ans was created for training purposes, not for production use.
 
